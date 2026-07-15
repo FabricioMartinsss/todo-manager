@@ -81,17 +81,27 @@ app.post("/tarefas", async function (req, resp) {
     }
 });
 
-app.get("/tarefas/:id", function (req, resp) {
+app.get("/tarefas/:id", async function (req, resp) {
+    try {
+        const resultado = await pool.query(
+            `
+            SELECT *
+            FROM tarefas
+            WHERE id = $1;
+            `,
+            [Number(req.params.id)]
+        );
 
-    const tarefa = tarefas.find(function (tarefa) {
-        return tarefa.id === Number(req.params.id);
-    });
+        if (resultado.rows.length === 0) {
+            return resp.status(404).send("Tarefa não encontrada");
+        }
 
-    if (!tarefa) {
-        return resp.status(404).send("Tarefa não encontrada");
+        resp.send(resultado.rows[0]);
+
+    } catch (erro) {
+        console.error(erro);
+        resp.status(500).send("Erro ao buscar tarefa");
     }
-
-    resp.send(tarefa);
 });
 
 app.patch("/tarefas/:id", function (req, resp){
