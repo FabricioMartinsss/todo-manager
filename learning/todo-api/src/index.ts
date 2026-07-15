@@ -104,18 +104,32 @@ app.get("/tarefas/:id", async function (req, resp) {
     }
 });
 
-app.patch("/tarefas/:id", function (req, resp){
+app.patch("/tarefas/:id", async function (req, resp) {
+    try {
+        const resultado = await pool.query(
+            `
+            UPDATE tarefas
+            SET concluida = $1
+            WHERE id = $2
+            RETURNING *;
+            `,
+            [
+                req.body.concluida,
+                Number(req.params.id)
+            ]
+        );
 
-    const tarefa = tarefas.find(function (tarefa) {
-        return tarefa.id === Number(req.params.id);
-    });
-    if (!tarefa) {
-        return resp.status(404).send("Tarefa não encontrada");
+        if (resultado.rows.length === 0) {
+            return resp.status(404).send("Tarefa não encontrada");
+        }
+
+        resp.send(resultado.rows[0]);
+
+    } catch (erro) {
+        console.error(erro);
+        resp.status(500).send("Erro ao atualizar tarefa");
     }
-
-    tarefa.concluida = req.body.concluida;
-    resp.send(tarefa);
-})
+});
 
 app.delete("/tarefas/:id", function (req, resp) {
 
