@@ -1,4 +1,5 @@
 import express from "express";
+import pool from "./database";
 
 const app = express();
 
@@ -31,6 +32,17 @@ const tarefas: Tarefa[] = [
 function callback() {
     console.log("Servidor Iniciado");
 }
+
+async function conectarBanco() {
+    try {
+        await pool.query("SELECT NOW()");
+        console.log("✅ Conectado ao PostgreSQL");
+    } catch (erro) {
+        console.error("❌ Erro ao conectar:", erro);
+    }
+}
+
+conectarBanco();
 
 app.listen(port, callback);
 
