@@ -62,19 +62,24 @@ app.get("/tarefas", async function (req, resp) {
     }
 });
 
-app.post("/tarefas", function(req, resp){
+app.post("/tarefas", async function (req, resp) {
+    try {
+        const resultado = await pool.query(
+            `
+            INSERT INTO tarefas (titulo)
+            VALUES ($1)
+            RETURNING *;
+            `,
+            [req.body.titulo]
+        );
 
-        const novaTarefa: Tarefa = {
-        id: tarefas.length + 1,
-        titulo: req.body.titulo,
-        concluida: false,
-        dataCriacao: new Date()
-        };
+        resp.send(resultado.rows[0]);
 
-        tarefas.push(novaTarefa);
-        resp.send(novaTarefa);
-}
-);
+    } catch (erro) {
+        console.error(erro);
+        resp.status(500).send("Erro ao criar tarefa");
+    }
+});
 
 app.get("/tarefas/:id", function (req, resp) {
 
