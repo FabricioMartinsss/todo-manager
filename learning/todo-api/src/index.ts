@@ -51,10 +51,16 @@ app.get("/", function(req, resp){
 }
 );
 
-app.get("/tarefas", function(req, resp){
-    resp.send(tarefas);
-}
-);
+app.get("/tarefas", async function (req, resp) {
+    try {
+        const resultado = await pool.query("SELECT * FROM tarefas");
+
+        resp.send(resultado.rows);
+    } catch (erro) {
+        console.error(erro);
+        resp.status(500).send("Erro ao buscar tarefas");
+    }
+});
 
 app.post("/tarefas", function(req, resp){
 
