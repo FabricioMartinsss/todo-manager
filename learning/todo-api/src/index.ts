@@ -2,6 +2,8 @@ import express from "express";
 
 const app = express();
 
+app.use(express.json());  //middleware
+
 const port = 3412;
 
 type Tarefa = {
@@ -39,5 +41,19 @@ app.get("/", function(req, resp){
 
 app.get("/tarefas", function(req, resp){
     resp.send(tarefas);
+}
+);
+
+app.post("/tarefas", function(req, resp){
+    
+        const novaTarefa: Tarefa = {
+        id: tarefas.length + 1,
+        titulo: req.body.titulo,
+        concluida: false,
+        dataCriacao: new Date()
+        };
+
+        tarefas.push(novaTarefa);
+        resp.send(novaTarefa);
 }
 );
