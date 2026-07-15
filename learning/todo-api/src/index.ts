@@ -83,3 +83,19 @@ app.patch("/tarefas/:id", function (req, resp){
     tarefa.concluida = req.body.concluida;
     resp.send(tarefa);
 })
+
+app.delete("/tarefas/:id", function (req, resp) {
+
+    const indice = tarefas.findIndex(function (tarefa) {
+        return tarefa.id === Number(req.params.id);
+    });
+
+    if (indice === -1) {
+        return resp.status(404).send("Tarefa não encontrada");
+    }
+
+    tarefas.splice(indice, 1);
+
+    resp.send("Tarefa removida com sucesso");
+
+});
