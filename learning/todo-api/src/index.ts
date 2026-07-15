@@ -131,18 +131,25 @@ app.patch("/tarefas/:id", async function (req, resp) {
     }
 });
 
-app.delete("/tarefas/:id", function (req, resp) {
+app.delete("/tarefas/:id", async function (req, resp) {
+    try {
+        const resultado = await pool.query(
+            `
+            DELETE FROM tarefas
+            WHERE id = $1
+            RETURNING *;
+            `,
+            [Number(req.params.id)]
+        );
 
-    const indice = tarefas.findIndex(function (tarefa) {
-        return tarefa.id === Number(req.params.id);
-    });
+        if (resultado.rows.length === 0) {
+            return resp.status(404).send("Tarefa não encontrada");
+        }
 
-    if (indice === -1) {
-        return resp.status(404).send("Tarefa não encontrada");
+        resp.send("Tarefa removida com sucesso");
+
+    } catch (erro) {
+        console.error(erro);
+        resp.status(500).send("Erro ao remover tarefa");
     }
-
-    tarefas.splice(indice, 1);
-
-    resp.send("Tarefa removida com sucesso");
-
 });
