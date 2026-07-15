@@ -45,7 +45,7 @@ app.get("/tarefas", function(req, resp){
 );
 
 app.post("/tarefas", function(req, resp){
-    
+
         const novaTarefa: Tarefa = {
         id: tarefas.length + 1,
         titulo: req.body.titulo,
@@ -57,3 +57,18 @@ app.post("/tarefas", function(req, resp){
         resp.send(novaTarefa);
 }
 );
+
+
+app.get("/tarefas/:id", function (req, resp) {
+
+    const tarefa = tarefas.find(function (tarefa) {
+        return tarefa.id === Number(req.params.id);
+    });
+
+    if (!tarefa) {
+        return resp.status(404).send("Tarefa não encontrada");
+    }
+
+    resp.send(tarefa);
+
+});
