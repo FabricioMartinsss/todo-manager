@@ -58,7 +58,6 @@ app.post("/tarefas", function(req, resp){
 }
 );
 
-
 app.get("/tarefas/:id", function (req, resp) {
 
     const tarefa = tarefas.find(function (tarefa) {
@@ -70,5 +69,17 @@ app.get("/tarefas/:id", function (req, resp) {
     }
 
     resp.send(tarefa);
-
 });
+
+app.patch("/tarefas/:id", function (req, resp){
+
+    const tarefa = tarefas.find(function (tarefa) {
+        return tarefa.id === Number(req.params.id);
+    });
+    if (!tarefa) {
+        return resp.status(404).send("Tarefa não encontrada");
+    }
+
+    tarefa.concluida = req.body.concluida;
+    resp.send(tarefa);
+})
