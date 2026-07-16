@@ -56,6 +56,20 @@ export class TarefasRepository {
         return resultado.rows[0];
 
     }
-    
+
+    async remover(id: number) {
+
+        const resultado = await pool.query(
+            `
+            DELETE FROM tarefas
+            WHERE id = $1
+            RETURNING *
+            `,
+            [id]
+        );
+
+        return resultado.rows[0];
+
+    }
 }
 
