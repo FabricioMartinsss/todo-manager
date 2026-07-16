@@ -1,9 +1,10 @@
-
+import { TarefasRepository } from "../repositories/tarefas.repository";
+const tarefasRepository = new TarefasRepository();
 export class TarefasService {
 
-    listar() {
+    async listar() {
 
-        return "Lista de tarefas";
+        return await tarefasRepository.listar();
 
     }
 

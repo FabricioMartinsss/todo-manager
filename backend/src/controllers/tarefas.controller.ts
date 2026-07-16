@@ -4,12 +4,10 @@ import { TarefasService } from "../services/tarefas.service";
 const tarefasService = new TarefasService();
 export class TarefasController {
 
-    listar(req: Request, res: Response) {
+    async listar(req: Request, res: Response) {
+        const tarefas = await tarefasService.listar();
 
-        const resposta = tarefasService.listar();
-
-        res.send(resposta);
-
+        res.send(tarefas);
     }
 
 }
