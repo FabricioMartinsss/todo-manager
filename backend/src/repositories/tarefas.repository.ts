@@ -41,5 +41,21 @@ export class TarefasRepository {
 
     }
 
+    async atualizar(id: number, titulo: string) {
+
+        const resultado = await pool.query(
+            `
+            UPDATE tarefas
+            SET titulo = $1
+            WHERE id = $2
+            RETURNING *
+            `,
+            [titulo, id]
+        );
+
+        return resultado.rows[0];
+
+    }
+    
 }
 

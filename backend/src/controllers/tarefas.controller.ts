@@ -30,4 +30,15 @@ export class TarefasController {
 
     }
 
+    async atualizar(req: Request, res: Response) {
+
+        const id = Number(req.params.id);
+
+        const { titulo } = req.body;
+
+        const tarefa = await tarefasService.atualizar(id, titulo);
+
+        res.send(tarefa);
+
+    }
 }

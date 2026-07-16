@@ -30,4 +30,20 @@ export class TarefasService {
 
     }
 
+    async atualizar(id: number, titulo: string) {
+
+        if (!titulo.trim()) {
+            throw new Error("Título é obrigatório.");
+        }
+
+        const tarefa = await tarefasRepository.atualizar(id, titulo);
+
+        if (!tarefa) {
+            throw new Error("Tarefa não encontrada.");
+        }
+
+        return tarefa;
+
+    }
+
 }
