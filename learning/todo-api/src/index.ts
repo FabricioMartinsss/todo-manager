@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());  //middleware
 
-const port = 3412;
+const port = Number(process.env.PORT) || 3412;
 
 function callback() {
     console.log("Servidor Iniciado");
