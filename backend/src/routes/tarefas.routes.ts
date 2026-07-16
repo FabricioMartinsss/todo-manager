@@ -1,11 +1,11 @@
 import { Router } from "express";
-
 const router = Router();
 
-router.get("/", (req, res) => {
-    res.send("Lista de tarefas");
-});
+import { TarefasController } from "../controllers/tarefas.controller";
+const tarefasController = new TarefasController();
 
+
+router.get("/", tarefasController.listar);
 
 
 export default router;
