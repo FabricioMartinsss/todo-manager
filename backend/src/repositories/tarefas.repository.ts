@@ -12,4 +12,18 @@ export class TarefasRepository {
 
     }
 
+    async criar(titulo: string) {
+    const resultado = await pool.query(
+        `
+        INSERT INTO tarefas (titulo)
+        VALUES ($1)
+        RETURNING *
+        `,
+        [titulo]
+    );
+
+    return resultado.rows[0];
 }
+
+}
+

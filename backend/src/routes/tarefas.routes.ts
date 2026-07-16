@@ -6,6 +6,6 @@ const tarefasController = new TarefasController();
 
 
 router.get("/", tarefasController.listar);
-
+router.post("/", tarefasController.criar);
 
 export default router;

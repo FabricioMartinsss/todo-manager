@@ -10,4 +10,14 @@ export class TarefasController {
         res.send(tarefas);
     }
 
+    async criar(req: Request, res: Response) {
+
+    const { titulo } = req.body;
+
+    const tarefa = await tarefasService.criar(titulo);
+
+    res.status(201).send(tarefa);
+
+}
+
 }
