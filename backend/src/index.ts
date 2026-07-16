@@ -1,11 +1,22 @@
 import express from "express";
+import { pool } from "./database/connection";
+import { env } from "./config/env";
 
 const app = express();
 
-const port = 4567;
+const port = env.server.port;
 
 function callback() {
     console.log("Servidor Iniciado");
 }
 
-app.listen(port, callback);
+async function startServer() {
+    const results = await pool.query("SELECT NOW()");
+    console.log(results.rows);
+    app.listen(port, callback);
+}
+
+startServer();
+
+
+
