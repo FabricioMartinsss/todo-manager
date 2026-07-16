@@ -7,5 +7,6 @@ const tarefasController = new TarefasController();
 
 router.get("/", tarefasController.listar);
 router.post("/", tarefasController.criar);
+router.get("/:id", tarefasController.buscarPorId);
 
 export default router;

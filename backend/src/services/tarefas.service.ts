@@ -10,12 +10,24 @@ export class TarefasService {
 
     async criar(titulo: string) {
 
-    if (!titulo.trim()) {
-        throw new Error("Título é obrigatório.");
+        if (!titulo.trim()) {
+            throw new Error("Título é obrigatório.");
+        }
+
+        return await tarefasRepository.criar(titulo);
+
     }
 
-    return await tarefasRepository.criar(titulo);
+    async buscarPorId(id: number) {
 
-}
+        const tarefa = await tarefasRepository.buscarPorId(id);
+
+        if (!tarefa) {
+            throw new Error("Tarefa não encontrada.");
+        }
+
+        return tarefa;
+
+    }
 
 }

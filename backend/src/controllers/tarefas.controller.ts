@@ -12,12 +12,22 @@ export class TarefasController {
 
     async criar(req: Request, res: Response) {
 
-    const { titulo } = req.body;
+        const { titulo } = req.body;
 
-    const tarefa = await tarefasService.criar(titulo);
+        const tarefa = await tarefasService.criar(titulo);
 
-    res.status(201).send(tarefa);
+        res.status(201).send(tarefa);
 
-}
+    }
+
+    async buscarPorId(req: Request, res: Response) {
+
+        const id = Number(req.params.id);
+
+        const tarefa = await tarefasService.buscarPorId(id);
+
+        res.send(tarefa);
+
+    }
 
 }
