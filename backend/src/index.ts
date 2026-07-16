@@ -2,6 +2,7 @@ import express from "express";
 import { pool } from "./database/connection";
 import { env } from "./config/env";
 import tarefasRoutes from "./routes/tarefas.routes";
+import { errorMiddleware } from "./middlewares/tarefas.middleware";
 
 const app = express();
 
@@ -22,5 +23,6 @@ async function startServer() {
 startServer();
 
 app.use("/tarefas", tarefasRoutes);
+app.use(errorMiddleware);
 
 
