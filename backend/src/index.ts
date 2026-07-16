@@ -1,6 +1,9 @@
 import express from "express";
 import { pool } from "./database/connection";
 import { env } from "./config/env";
+import tarefasRoutes from "./routes/tarefas.routes";
+
+
 
 const app = express();
 
@@ -18,5 +21,6 @@ async function startServer() {
 
 startServer();
 
+app.use("/tarefas", tarefasRoutes);
 
 
