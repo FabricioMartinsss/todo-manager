@@ -1,0 +1,92 @@
+{
+  "name": "001-webhook-create-test",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "http://localhost:4567/tarefas",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bfaa920b-08c3-4cb9-910d-084ba79d3fa4",
+      "name": "Webhook",
+      "webhookId": "42ef4e73-6e30-46eb-8153-6facc43190cf"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\": \"ok\",\n  \"message\": \"Webhook recebido com sucesso\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "eb617a7d-4767-4088-a2a3-522846d6da9a",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:4567/tarefas",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f4694ea0-0d64-40aa-b607-dcd82fe3ce79",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6e592e0d-a2f6-44eb-9806-aa77fabf0fcb",
+  "meta": {
+    "instanceId": "7a4edcdca486e432d965d520fd683fd2e83a278c2b3a94ceaee3da6d50e746e2"
+  },
+  "nodeGroups": [],
+  "id": "QsdAieHHb2NS7vir",
+  "tags": []
+}
