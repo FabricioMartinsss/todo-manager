@@ -1,0 +1,65 @@
+{
+  "name": "002-schedule-trigger",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d6b72683-1ef6-4b46-9435-c5c32ab27237",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:4567/tarefas",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8429d10a-83be-4e4c-a0af-9329a21fa923",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "aa84d549-0a45-4c42-9c22-a3d7d9248920",
+  "meta": {
+    "instanceId": "7a4edcdca486e432d965d520fd683fd2e83a278c2b3a94ceaee3da6d50e746e2"
+  },
+  "nodeGroups": [],
+  "id": "S6Fo54F5mSxc4uEX",
+  "tags": []
+}
