@@ -24,13 +24,13 @@
         "url": "http://localhost:4567/tarefas",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ $json.body }}",
+        "jsonBody": "={{$json}}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        336,
+        384,
         -32
       ],
       "id": "f4694ea0-0d64-40aa-b607-dcd82fe3ce79",
@@ -79,8 +79,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        176,
-        192
+        192,
+        144
       ],
       "id": "258b45de-4f66-403d-b2f5-73f580492a3e",
       "name": "Respond to Webhook"
@@ -99,6 +99,21 @@
       ],
       "id": "b9991817-7ecb-4949-80fe-760cdeeea691",
       "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"titulo\": \"{{ $json.body.titulo }}\",\n  \"descricao\": \"{{ $json.body.descricao }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        -128
+      ],
+      "id": "1e5bc907-b1c9-4a31-9831-81bc12b74447",
+      "name": "Edit Fields"
     }
   ],
   "pinData": {},
@@ -129,7 +144,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -137,6 +152,17 @@
         [
           {
             "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -150,7 +176,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "684d9456-5d55-4d6f-bf0e-a2ffd5ace30d",
+  "versionId": "75b2d03a-d798-4c34-b422-054a1787ef49",
   "meta": {
     "instanceId": "7a4edcdca486e432d965d520fd683fd2e83a278c2b3a94ceaee3da6d50e746e2"
   },
