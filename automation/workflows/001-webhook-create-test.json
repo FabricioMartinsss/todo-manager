@@ -4,34 +4,19 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "http://localhost:4567/tarefas",
+        "path": "/tarefas",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
-        0
+        -208,
+        -16
       ],
       "id": "bfaa920b-08c3-4cb9-910d-084ba79d3fa4",
       "name": "Webhook",
       "webhookId": "42ef4e73-6e30-46eb-8153-6facc43190cf"
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "{\n  \"status\": \"ok\",\n  \"message\": \"Webhook recebido com sucesso\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.5,
-      "position": [
-        448,
-        0
-      ],
-      "id": "eb617a7d-4767-4088-a2a3-522846d6da9a",
-      "name": "Respond to Webhook"
     },
     {
       "parameters": {
@@ -45,11 +30,75 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        208,
-        0
+        336,
+        -32
       ],
       "id": "f4694ea0-0d64-40aa-b607-dcd82fe3ce79",
       "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6471ca5f-146c-4bc0-b5f3-e0bb7c008e18",
+              "leftValue": "={{ $json.body.titulo }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        -16
+      ],
+      "id": "8bf3cf70-2973-44ad-9147-9c48e7481466",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"success\": false,\n  \"message\": \"Campo 'title' obrigatório.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        176,
+        192
+      ],
+      "id": "258b45de-4f66-403d-b2f5-73f580492a3e",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\": \"ok\",\n  \"message\": \"Webhook recebido com sucesso\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        592,
+        -32
+      ],
+      "id": "b9991817-7ecb-4949-80fe-760cdeeea691",
+      "name": "Respond to Webhook1"
     }
   ],
   "pinData": {},
@@ -58,7 +107,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -67,6 +116,24 @@
     },
     "HTTP Request": {
       "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Respond to Webhook",
@@ -80,9 +147,10 @@
   "active": true,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate"
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
-  "versionId": "6e592e0d-a2f6-44eb-9806-aa77fabf0fcb",
+  "versionId": "684d9456-5d55-4d6f-bf0e-a2ffd5ace30d",
   "meta": {
     "instanceId": "7a4edcdca486e432d965d520fd683fd2e83a278c2b3a94ceaee3da6d50e746e2"
   },
