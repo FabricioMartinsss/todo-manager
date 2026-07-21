@@ -41,6 +41,21 @@ export class TarefasRepository {
 
     }
 
+    async buscarPorTitulo(titulo: string) {
+
+        const resultado = await pool.query(
+            `
+            SELECT *
+            FROM tarefas
+            WHERE LOWER(titulo) = LOWER($1)
+            `,
+            [titulo]
+        );
+
+        return resultado.rows[0];
+
+    }
+
     async atualizar(id: number, titulo: string) {
 
         const resultado = await pool.query(

@@ -14,6 +14,12 @@ export class TarefasService {
             throw new Error("Título é obrigatório.");
         }
 
+        const tarefaExistente = await tarefasRepository.buscarPorTitulo(titulo);
+
+        if (tarefaExistente) {
+            throw new Error("Já existe uma tarefa com esse título.");
+        }
+
         return await tarefasRepository.criar(titulo);
 
     }
