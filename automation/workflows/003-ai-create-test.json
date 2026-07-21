@@ -4,7 +4,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "chat",
+        "path": "/tarefas",
         "responseMode": "responseNode",
         "options": {}
       },
@@ -30,60 +30,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        224,
-        48
+        208,
+        64
       ],
       "id": "0ba25e1a-2848-419a-8f9a-120424044777",
       "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "6471ca5f-146c-4bc0-b5f3-e0bb7c008e18",
-              "leftValue": "={{ $json.output.titulo }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "exists",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -160,
-        64
-      ],
-      "id": "b0312f34-d8ce-47f6-88a5-72724e905712",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "{\n  \"success\": false,\n  \"message\": \"Campo 'title' obrigatório.\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.5,
-      "position": [
-        32,
-        224
-      ],
-      "id": "22d22378-7039-4f39-83c0-82c0e8f24914",
-      "name": "Respond to Webhook"
     },
     {
       "parameters": {
@@ -95,7 +46,7 @@
       "typeVersion": 1.5,
       "position": [
         432,
-        48
+        64
       ],
       "id": "9dc18fdd-f400-452f-b6e1-ee6ba32146db",
       "name": "Respond to Webhook1"
@@ -109,8 +60,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        32,
-        -48
+        -80,
+        64
       ],
       "id": "35771f4b-0c2a-4a56-a3db-7b4b0d0b6156",
       "name": "Edit Fields"
@@ -118,10 +69,10 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.body.mensagem }}",
+        "text": "={{ $json.body.titulo }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "Você é um interpretador de comandos para um sistema de gerenciamento de tarefas.\n\nSua única função é extrair informações da mensagem enviada pelo usuário.\n\nResponda APENAS com um JSON válido.\n\nFormato:\n\n{\n  \"titulo\": \"\",\n  \"descricao\": \"\"\n}\n\nRegras:\n\n- Não explique nada.\n- Não use markdown.\n- Não use ```json.\n- Nunca escreva texto antes ou depois do JSON.\n- Se a descrição não existir, retorne uma string vazia."
+          "systemMessage": "Você trabalha para um sistema de gerenciamento de tarefas.\n\nSua função é interpretar a mensagem do usuário e extrair apenas as informações necessárias para criar uma tarefa.\n\nNunca invente informações.\n\nCaso alguma informação não exista, utilize string vazia.\n\nResponda apenas utilizando o schema informado. \n\nVocê é um interpretador de comandos para um sistema de gerenciamento de tarefas.\n\nSua única função é extrair informações da mensagem enviada pelo usuário.\n\nResponda APENAS com um JSON válido.\n\nFormato:\n\n{\n  \"titulo\": \"\",\n  \"descricao\": \"\"\n}\n\nRegras:\n\n- Não explique nada.\n- Não use markdown.\n- Não use ```json.\n- Nunca escreva texto antes ou depois do JSON.\n- Se a descrição não existir, retorne uma string vazia."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -191,24 +142,6 @@
         ]
       ]
     },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Edit Fields": {
       "main": [
         [
@@ -224,7 +157,7 @@
       "main": [
         [
           {
-            "node": "If",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -259,7 +192,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "f06ec45c-1a0e-4d50-ab19-adf449088b61",
+  "versionId": "cc24d262-333b-40bd-bb92-47fb3b8cf304",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7a4edcdca486e432d965d520fd683fd2e83a278c2b3a94ceaee3da6d50e746e2"
