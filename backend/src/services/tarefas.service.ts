@@ -52,6 +52,18 @@ export class TarefasService {
 
     }
 
+    async concluir(id: number) {
+
+        const tarefa = await tarefasRepository.concluir(id);
+
+        if (!tarefa) {
+            throw new Error("Tarefa não encontrada.");
+        }
+
+        return tarefa;
+
+    }
+    
     async remover(id: number) {
 
         const tarefa = await tarefasRepository.remover(id);

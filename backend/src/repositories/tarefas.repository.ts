@@ -71,7 +71,22 @@ export class TarefasRepository {
         return resultado.rows[0];
 
     }
+    
+    async concluir(id: number) {
 
+        const resultado = await pool.query(
+            `
+            UPDATE tarefas
+            SET concluida = true
+            WHERE id = $1
+            RETURNING *
+            `,
+            [id]
+        );
+
+        return resultado.rows[0];
+
+    }
     async remover(id: number) {
 
         const resultado = await pool.query(

@@ -41,6 +41,16 @@ export class TarefasController {
         res.send(tarefa);
 
     }
+    
+    async concluir(req: Request, res: Response) {
+
+        const id = Number(req.params.id);
+
+        const tarefa = await tarefasService.concluir(id);
+
+        res.send(tarefa);
+
+    }
 
     async remover(req: Request, res: Response) {
 

@@ -9,6 +9,9 @@ router.get("/", tarefasController.listar);
 router.post("/", tarefasController.criar);
 router.get("/:id", tarefasController.buscarPorId);
 router.patch("/:id", tarefasController.atualizar);
+
+router.patch("/:id/concluir", tarefasController.concluir);
+
 router.delete("/:id", tarefasController.remover);
 
 export default router;
