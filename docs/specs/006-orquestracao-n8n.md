@@ -1,4 +1,4 @@
-# SPEC — Etapa 5: Integração com n8n
+# SPEC — Etapa 6: Integração com n8n
 
 ## Objetivo
 

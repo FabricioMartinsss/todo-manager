@@ -1,4 +1,4 @@
-# SPEC — Etapa 6: Interpretador Inteligente de Comandos
+# SPEC — Etapa 7: Interpretador Inteligente de Comandos
 
 ## Objetivo
 

@@ -1,4 +1,4 @@
-# 002 - Integração PostgreSQL
+Etapa 3 - Integração PostgreSQL
 
 ## Objetivo
 

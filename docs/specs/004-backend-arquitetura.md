@@ -1,4 +1,4 @@
-# Spec 004 — Arquitetura Inicial do Backend
+# Spec 004 Etapa 4— Arquitetura Inicial do Backend
 
 ## Objetivo
 
