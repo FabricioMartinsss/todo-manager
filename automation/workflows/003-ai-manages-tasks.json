@@ -4,15 +4,15 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "/tarefas",
+        "path": "tarefas",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -672,
-        64
+        -704,
+        96
       ],
       "id": "e8a4f18f-b273-4531-ab79-be9368363cb6",
       "name": "Webhook",
@@ -27,8 +27,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        656,
-        -208
+        944,
+        -192
       ],
       "id": "9dc18fdd-f400-452f-b6e1-ee6ba32146db",
       "name": "Respond to Webhook1"
@@ -51,7 +51,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.body.message }}",
+        "text": "={{ $json.body.data.message.conversation }}",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "Você é um interpretador de comandos para um sistema de gerenciamento de tarefas.\n\nSua função é identificar a intenção do usuário e extrair apenas as informações necessárias para executar a ação.\n\nAs ações permitidas são:\n\n- criar_tarefa\n- listar_tarefas\n- concluir_tarefa\n- excluir_tarefa\n\nRegras:\n\n- Responda apenas utilizando o schema informado.\n- Nunca escreva explicações.\n- Nunca utilize markdown.\n- Nunca invente informações.\n- Caso algum campo não exista na mensagem, retorne uma string vazia.\n\nExemplos:\n\nUsuário:\n\"Adicionar tarefa estudar TypeScript\"\n\nResposta:\nacao: criar_tarefa\ntitulo: Estudar TypeScript\n\n---\n\nUsuário:\n\"Liste minhas tarefas\"\n\nResposta:\nacao: listar_tarefas\ntitulo: \"\"\ndescricao: \"\"\n\n---\n\nUsuário:\n\"Concluir tarefa estudar IA\"\n\nResposta:\nacao: concluir_tarefa\ntitulo: Estudar IA\n\n---\n\nUsuário:\n\"Excluir tarefa comprar pão\"\n\nResposta:\nacao: excluir_tarefa\ntitulo: Comprar pão"
@@ -60,8 +60,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -480,
-        64
+        -464,
+        96
       ],
       "id": "83dc7e91-0830-4ee3-9c92-f2a6750297db",
       "name": "AI Agent"
@@ -74,7 +74,7 @@
       "typeVersion": 1.1,
       "position": [
         -576,
-        256
+        352
       ],
       "id": "a4a19d9a-ffaa-4502-8d73-a5ecba7e6d4a",
       "name": "Google Gemini Chat Model",
@@ -93,8 +93,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -304,
-        320
+        -224,
+        368
       ],
       "id": "949a4085-f4c3-4e80-ab69-85c0737cb0d4",
       "name": "Structured Output Parser"
@@ -214,24 +214,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "http://localhost:4567/tarefas",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{$json}}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        464,
-        -208
-      ],
-      "id": "0ba25e1a-2848-419a-8f9a-120424044777",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
         "url": "http://localhost:4567/tarefas",
         "sendBody": true,
         "specifyBody": "json",
@@ -256,7 +238,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        480,
+        704,
         -32
       ],
       "id": "9e052dc1-4fc5-4c2b-9f2c-5676e852962d",
@@ -269,7 +251,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        512,
+        480,
         144
       ],
       "id": "6baad3dc-d6dd-4f26-ba1e-09c6812135ca",
@@ -304,7 +286,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        800,
+        704,
         144
       ],
       "id": "3920eba5-6e48-4621-bd7a-fc1a42262791",
@@ -319,7 +301,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        1088,
+        1168,
         144
       ],
       "id": "bade5aae-6a6f-42f5-944b-a727524af80b",
@@ -349,7 +331,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        528,
+        496,
         320
       ],
       "id": "437e0a12-988a-4317-8a2a-9c9e60a7c7a0",
@@ -367,7 +349,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        800,
+        704,
         320
       ],
       "id": "658fc126-98fe-4175-a082-5b1aa0db3d5c",
@@ -382,11 +364,153 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        1104,
+        1184,
         320
       ],
       "id": "097c5650-9060-4663-bfa6-6600485e4542",
       "name": "Respond to Webhook3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:4567/tarefas",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        480,
+        -192
+      ],
+      "id": "0ba25e1a-2848-419a-8f9a-120424044777",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.0.4:8080/message/sendText/todo-manager",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "todo-manager-api-key"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"={{ $('Webhook').item.json.body.data.key.remoteJid.split('@')[0] }}\",\n  \"text\": \"={{ $json.titulo ? 'Tarefa escontrada com sucesso: ' + $json.titulo : 'Operação realizada com sucesso!' }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        480,
+        -32
+      ],
+      "id": "1a4e7041-6a6e-4499-80ef-1d597cfa247d",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.0.4:8080/message/sendText/todo-manager",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "todo-manager-api-key"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"={{ $('Webhook').item.json.body.data.key.remoteJid.split('@')[0] }}\",\n  \"text\": \"={{ $json.titulo ? 'Tarefa concluida com sucesso: ' + $json.titulo : 'Operação realizada com sucesso!' }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        944,
+        144
+      ],
+      "id": "143eaa66-532d-476b-b01f-3980bd39fdfe",
+      "name": "HTTP Request8"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.0.4:8080/message/sendText/todo-manager",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "todo-manager-api-key"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"={{ $('Webhook').item.json.body.data.key.remoteJid.split('@')[0] }}\",\n  \"text\": \"={{ $json.titulo ? 'Tarefa deletada com sucesso: ' + $json.titulo : 'Operação realizada com sucesso!' }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        960,
+        320
+      ],
+      "id": "8a013546-cf94-417c-a57b-641e7cbdd6eb",
+      "name": "HTTP Request9"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.0.4:8080/message/sendText/todo-manager",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "todo-manager-api-key"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"={{ $('Webhook').item.json.body.data.key.remoteJid.split('@')[0] }}\",\n  \"text\": \"={{ $json.titulo ? 'Tarefa criada com sucesso: ' + $json.titulo : 'Operação realizada com sucesso!' }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        704,
+        -192
+      ],
+      "id": "7938bf90-743a-421a-9795-058e02fd1484",
+      "name": "HTTP Request6"
     }
   ],
   "pinData": {},
@@ -478,22 +602,11 @@
         ]
       ]
     },
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "HTTP Request1": {
       "main": [
         [
           {
-            "node": "Respond to Webhook",
+            "node": "HTTP Request7",
             "type": "main",
             "index": 0
           }
@@ -526,7 +639,7 @@
       "main": [
         [
           {
-            "node": "Respond to Webhook2",
+            "node": "HTTP Request8",
             "type": "main",
             "index": 0
           }
@@ -559,7 +672,67 @@
       "main": [
         [
           {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request9": {
+      "main": [
+        [
+          {
             "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
             "type": "main",
             "index": 0
           }
@@ -567,13 +740,13 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "ecbd6a01-b6c8-4cb4-8871-105480b00bd7",
+  "versionId": "654a1c00-f46b-45bd-b278-de470dae97c3",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7a4edcdca486e432d965d520fd683fd2e83a278c2b3a94ceaee3da6d50e746e2"

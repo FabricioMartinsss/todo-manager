@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Integrar o sistema de gerenciamento de tarefas ao WhatsApp utilizando a **WhatsApp Cloud API**, permitindo que mensagens enviadas pelo usuário sejam processadas pelo workflow já existente no n8n.
+Integrar o sistema de gerenciamento de tarefas ao WhatsApp utilizando a **Evolution API**, permitindo que mensagens enviadas pelo usuário sejam processadas pelo workflow já existente no n8n.
 
 Esta etapa **não altera a arquitetura existente**, apenas adiciona uma nova porta de entrada para o sistema.
 
@@ -12,22 +12,24 @@ Esta etapa **não altera a arquitetura existente**, apenas adiciona uma nova por
 
 Esta etapa contempla:
 
-- Conectar a WhatsApp Cloud API ao n8n;
+- Instalar e configurar a Evolution API;
+- Criar uma instância do WhatsApp;
+- Conectar um número de WhatsApp através do QR Code;
 - Receber mensagens enviadas pelo WhatsApp;
-- Encaminhar essas mensagens ao workflow existente;
+- Encaminhar essas mensagens ao workflow existente do n8n;
 - Utilizar a IA para interpretar a intenção do usuário;
 - Executar as operações no backend;
 - Devolver a resposta ao usuário pelo WhatsApp.
 
 Não faz parte desta etapa:
 
-- Autenticação de usuários;
 - Múltiplos usuários;
 - Envio de imagens;
 - Envio de áudios;
 - Envio de documentos;
 - Grupos do WhatsApp;
-- Mensagens de mídia.
+- Mensagens de mídia;
+- Histórico de conversas.
 
 Esses itens poderão ser implementados futuramente.
 
@@ -41,7 +43,10 @@ A arquitetura do sistema permanece exatamente a mesma.
 Usuário
     │
     ▼
-WhatsApp Cloud API
+WhatsApp
+    │
+    ▼
+Evolution API
     │
     ▼
 n8n
@@ -65,6 +70,9 @@ PostgreSQL
 Resposta
     │
     ▼
+Evolution API
+    │
+    ▼
 WhatsApp
 ```
 
@@ -74,9 +82,9 @@ WhatsApp
 
 ## RN01
 
-O WhatsApp será apenas um canal de comunicação.
+A Evolution API será apenas um canal de comunicação entre o WhatsApp e o n8n.
 
-Ele não conterá regras de negócio.
+Ela não conterá regras de negócio.
 
 ---
 
@@ -104,7 +112,10 @@ O n8n continuará responsável apenas por:
 
 ## RN05
 
-O WhatsApp deverá apenas enviar e receber mensagens.
+A Evolution API será utilizada apenas para:
+
+- Receber mensagens do WhatsApp;
+- Enviar respostas ao usuário.
 
 ---
 
@@ -118,11 +129,15 @@ Usuário envia:
 
 ↓
 
-WhatsApp recebe a mensagem
+WhatsApp
 
 ↓
 
-n8n recebe o webhook
+Evolution API
+
+↓
+
+Webhook do n8n
 
 ↓
 
@@ -158,7 +173,15 @@ Resposta
 
 ↓
 
-WhatsApp envia:
+Evolution API
+
+↓
+
+WhatsApp
+
+↓
+
+Usuário recebe:
 
 > ✅ Tarefa criada com sucesso.
 
@@ -168,9 +191,10 @@ WhatsApp envia:
 
 A etapa será considerada concluída quando for possível:
 
-- Receber mensagens pelo WhatsApp;
-- Acionar automaticamente o workflow do n8n;
-- Executar os quatro fluxos já existentes:
+- Conectar um número de WhatsApp à Evolution API;
+- Receber mensagens automaticamente no n8n;
+- Acionar o workflow existente;
+- Executar os quatro fluxos já implementados:
   - Criar;
   - Listar;
   - Concluir;
@@ -188,8 +212,9 @@ Não fazem parte desta etapa:
 - Autenticação;
 - Histórico de conversas;
 - Memória da IA;
-- Envio de anexos;
 - Mensagens de voz;
+- Envio de imagens;
+- Envio de documentos;
 - Grupos;
 - Painel administrativo.
 
@@ -197,30 +222,32 @@ Não fazem parte desta etapa:
 
 # Riscos Conhecidos
 
-- Limitações do ambiente gratuito da WhatsApp Cloud API;
-- Expiração do Access Token;
-- Mudanças futuras na API oficial da Meta.
+- Necessidade de manter a instância da Evolution API ativa;
+- Desconexão da sessão do WhatsApp;
+- Alterações futuras na Evolution API;
+- Dependência da infraestrutura onde a Evolution API estiver executando.
 
 ---
 
 # Melhorias Futuras
 
+- Suporte a múltiplos usuários;
 - Suporte a mensagens de áudio utilizando transcrição;
 - Suporte a imagens;
-- Identificação de usuários por número de telefone;
 - Memória de contexto entre mensagens;
-- Respostas mais naturais utilizando IA;
-- Notificações automáticas de tarefas agendadas.
+- Identificação automática de usuários pelo número de telefone;
+- Notificações automáticas de tarefas agendadas;
+- Modularização dos workflows do n8n.
 
 ---
 
 # Decisões Arquiteturais
 
-## DA01 — O WhatsApp será apenas uma porta de entrada
+## DA01 — A Evolution API será apenas uma porta de entrada
 
 A integração com o WhatsApp não altera a arquitetura construída durante o projeto.
 
-Sua única responsabilidade é transportar mensagens entre o usuário e o workflow do n8n.
+Sua única responsabilidade é transportar mensagens entre o WhatsApp e o workflow do n8n.
 
 ---
 
@@ -232,7 +259,7 @@ O n8n permanece responsável por:
 - Acionar a IA;
 - Direcionar os fluxos;
 - Chamar o Backend;
-- Enviar a resposta ao WhatsApp.
+- Enviar a resposta para a Evolution API.
 
 Nenhuma regra de negócio será implementada no n8n.
 
@@ -250,26 +277,28 @@ Isso garante que futuras interfaces (como um painel web ou aplicativo mobile) po
 
 Ao concluir esta etapa, espera-se compreender:
 
-- Como funciona a arquitetura da WhatsApp Cloud API;
-- Como o WhatsApp se comunica com aplicações externas;
-- Como configurar Webhooks na Meta;
-- Como integrar a Cloud API ao n8n;
-- Como enviar mensagens pelo WhatsApp via API;
-- Como receber mensagens automaticamente;
-- Como reutilizar um workflow existente sem alterar sua arquitetura;
-- Como conectar um serviço externo a um sistema já construído.
+- Como funciona a arquitetura da Evolution API;
+- Como criar uma instância do WhatsApp;
+- Como conectar um número através do QR Code;
+- Como a Evolution API envia eventos para o n8n;
+- Como responder mensagens utilizando a Evolution API;
+- Como integrar um serviço externo sem alterar a arquitetura do sistema;
+- Como reutilizar o workflow já construído.
 
 ---
 
 # Resultado Esperado
 
-Ao final desta etapa, o usuário poderá enviar mensagens diretamente pelo WhatsApp, e todo o fluxo do sistema acontecerá automaticamente:
+Ao final desta etapa, o usuário poderá enviar mensagens diretamente pelo WhatsApp, e todo o fluxo do sistema acontecerá automaticamente.
 
 ```text
 Usuário
     │
     ▼
 WhatsApp
+    │
+    ▼
+Evolution API
     │
     ▼
 n8n
@@ -287,7 +316,19 @@ PostgreSQL
 Resposta
     │
     ▼
+Evolution API
+    │
+    ▼
 WhatsApp
 ```
 
-Sem modificar a arquitetura construída nas etapas anteriores, apenas adicionando uma nova interface de comunicação.
+Toda a inteligência do sistema continuará exatamente onde foi projetada:
+
+- WhatsApp → Interface de comunicação.
+- Evolution API → Ponte entre WhatsApp e n8n.
+- n8n → Orquestração.
+- IA → Interpretação da linguagem natural.
+- Backend → Regras de negócio.
+- PostgreSQL → Persistência dos dados.
+
+Essa separação mantém a arquitetura desacoplada e facilita futuras substituições da camada de mensageria sem impactar o restante da aplicação.
