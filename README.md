@@ -2,7 +2,7 @@
 
 Um gerenciador de tarefas controlado por **WhatsApp**, desenvolvido com foco em aprendizado de **Engenharia de Software**, integração entre sistemas e arquitetura de aplicações modernas.
 
-![Arquitetura do Projeto](docs/images/arquitetura.png)
+![Arquitetura do Projeto](docs/image/arquitetura.png)
 
 O projeto permite criar, listar, concluir e excluir tarefas através de mensagens em linguagem natural utilizando Inteligência Artificial.
 
