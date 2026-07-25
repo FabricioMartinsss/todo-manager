@@ -145,7 +145,6 @@ npm run dev
 |---------|----------|-----------|
 | POST | `/tarefas` | Criar tarefa |
 | GET | `/tarefas` | Listar tarefas |
-| GET | `/tarefas/:id` | Buscar tarefa por ID |
 | PATCH | `/tarefas/:id` | Atualizar tarefa |
 | DELETE | `/tarefas/:id` | Excluir tarefa |
 
